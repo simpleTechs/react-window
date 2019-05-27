@@ -507,6 +507,13 @@ export default function createListComponent({
             scrollOffset = scrollWidth - clientWidth - scrollLeft;
           }
         }
+        
+        const isOverscrolling = scrollOffset < 0 || scrollOffset > (scrollWidth -  clientWidth)
+        if(isOverscrolling) {
+          // if (e.g. iOS) uses the "rubber-band" overscrolling effect, we can just skip updates.
+          // this fixes weird flicker behaviour
+          return null
+        }
 
         return {
           isScrolling: true,
